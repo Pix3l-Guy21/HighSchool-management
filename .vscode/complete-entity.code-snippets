@@ -1,0 +1,36 @@
+{
+  "Complete validated entity": {
+    "scope": "csharp",
+    "prefix": "complete-entity",
+    "body": [
+      "public class ${1:Entity}",
+      "{",
+      "    public Guid Id { get; private set; }",
+      "",
+      "    private ${1:Entity}() { }",
+      "",
+      "    public ${1:Entity}(Guid ${2:id})",
+      "    {",
+      "        Validate(${2:id});",
+      "",
+      "        Id = ${2:id};",
+      "    }",
+      "",
+      "    public void Update()",
+      "    {",
+      "        if ();",
+      "",
+      "    }",
+      "",
+      "    private static void Validate(Guid ${2:id})",
+      "    {",
+      "        if (${2:id} == Guid.Empty)",
+      "            throw new ArgumentException(\"${1:Entity} Id cannot be empty.\", nameof(${2:id}));",
+      "",
+      "    }",
+      "    $0",
+      "}"
+    ],
+    "description": "Creates a complete validated entity with fields, constructor, update method, and validation"
+  }
+}
