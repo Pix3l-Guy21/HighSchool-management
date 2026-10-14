@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -30,22 +31,22 @@ public class ClassSchedule
 
     public static Result<ClassSchedule> Create(Guid id, Guid classId, Guid courseId, Guid teacherId, DayOfWeek day, TimeOnly startTime, TimeOnly endTime, string room)
     {
-        if (id == Guid.Empty) return new Error("ClassSchedule.EmptyId", "ClassSchedule Id cannot be empty.", ErrorType.Conflict);
-        if (classId == Guid.Empty) return new Error("ClassSchedule.EmptyClassId", "Class Id cannot be empty.", ErrorType.Conflict);
-        if (courseId == Guid.Empty) return new Error("ClassSchedule.EmptyCourseId", "Course Id cannot be empty.", ErrorType.Conflict);
-        if (teacherId == Guid.Empty) return new Error("ClassSchedule.EmptyTeacherId", "Teacher Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(room)) return new Error("ClassSchedule.EmptyRoom", "Room cannot be empty.", ErrorType.Conflict);
-        if (endTime <= startTime) return new Error("ClassSchedule.InvalidTimeRange", "End time must be after start time.", ErrorType.Conflict);
+        if (id == Guid.Empty) return ClassScheduleErrors.EmptyId;
+        if (classId == Guid.Empty) return ClassScheduleErrors.EmptyClassId;
+        if (courseId == Guid.Empty) return ClassScheduleErrors.EmptyCourseId;
+        if (teacherId == Guid.Empty) return ClassScheduleErrors.EmptyTeacherId;
+        if (string.IsNullOrWhiteSpace(room)) return ClassScheduleErrors.EmptyRoom;
+        if (endTime <= startTime) return ClassScheduleErrors.InvalidTimeRange;
         return new ClassSchedule(id, classId, courseId, teacherId, day, startTime, endTime, room);
     }
 
     public Result Update(Guid classId, Guid courseId, Guid teacherId, DayOfWeek? day, TimeOnly? startTime, TimeOnly? endTime, string room)
     {
-        if (classId == Guid.Empty) return new Error("ClassSchedule.EmptyClassId", "Class Id cannot be empty.", ErrorType.Conflict);
-        if (courseId == Guid.Empty) return new Error("ClassSchedule.EmptyCourseId", "Course Id cannot be empty.", ErrorType.Conflict);
-        if (teacherId == Guid.Empty) return new Error("ClassSchedule.EmptyTeacherId", "Teacher Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(room)) return new Error("ClassSchedule.EmptyRoom", "Room cannot be empty.", ErrorType.Conflict);
-        if (startTime != null && endTime != null && endTime <= startTime) return new Error("ClassSchedule.InvalidTimeRange", "End time must be after start time.", ErrorType.Conflict);
+        if (classId == Guid.Empty) return ClassScheduleErrors.EmptyClassId;
+        if (courseId == Guid.Empty) return ClassScheduleErrors.EmptyCourseId;
+        if (teacherId == Guid.Empty) return ClassScheduleErrors.EmptyTeacherId;
+        if (string.IsNullOrWhiteSpace(room)) return ClassScheduleErrors.EmptyRoom;
+        if (startTime != null && endTime != null && endTime <= startTime) return ClassScheduleErrors.InvalidTimeRange;
         ClassId = classId;
         CourseId = courseId;
         TeacherId = teacherId;

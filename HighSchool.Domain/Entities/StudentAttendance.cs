@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -25,20 +26,20 @@ public class StudentAttendance {
     }
     public static Result<StudentAttendance> Create(Guid id, Guid studentId, Guid courseId, DateOnly date, string status, Guid recordedBy, string? note)
     {
-        if (id == Guid.Empty) return new Error("StudentAttendance.EmptyId", "Student Attendance Id cannot be empty.", ErrorType.Conflict);
-        if (studentId == Guid.Empty) return new Error("StudentAttendance.EmptyStudentId", "Student Id cannot be empty.", ErrorType.Conflict);
-        if (courseId == Guid.Empty) return new Error("StudentAttendance.EmptyCourseId", "Course Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(status)) return new Error("StudentAttendance.EmptyStatus", "Attendance Status cannot be empty.", ErrorType.Conflict);
-        if (recordedBy == Guid.Empty) return new Error("StudentAttendance.EmptyRecordedBy", "Recorder's Id cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return StudentAttendanceErrors.EmptyId;
+        if (studentId == Guid.Empty) return StudentAttendanceErrors.EmptyStudentId;
+        if (courseId == Guid.Empty) return StudentAttendanceErrors.EmptyCourseId;
+        if (string.IsNullOrWhiteSpace(status)) return StudentAttendanceErrors.EmptyStatus;
+        if (recordedBy == Guid.Empty) return StudentAttendanceErrors.EmptyRecordedBy;
         return new StudentAttendance(id, studentId, courseId, date, status, recordedBy, note);
     }
 
     public Result Update(Guid studentId, Guid courseId, DateOnly? date, string status, Guid recordedBy, string? note)
     {
-        if (studentId == Guid.Empty) return new Error("StudentAttendance.EmptyStudentId", "Student Id cannot be empty.", ErrorType.Conflict);
-        if (courseId == Guid.Empty) return new Error("StudentAttendance.EmptyCourseId", "Course Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(status)) return new Error("StudentAttendance.EmptyStatus", "Attendance Status cannot be empty.", ErrorType.Conflict);
-        if (recordedBy == Guid.Empty) return new Error("StudentAttendance.EmptyRecordedBy", "Recorder's Id cannot be empty.", ErrorType.Conflict);
+        if (studentId == Guid.Empty) return StudentAttendanceErrors.EmptyStudentId;
+        if (courseId == Guid.Empty) return StudentAttendanceErrors.EmptyCourseId;
+        if (string.IsNullOrWhiteSpace(status)) return StudentAttendanceErrors.EmptyStatus;
+        if (recordedBy == Guid.Empty) return StudentAttendanceErrors.EmptyRecordedBy;
         StudentId = studentId;
         CourseId = courseId;
         if (date != null) Date = date.Value;

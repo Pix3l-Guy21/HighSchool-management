@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -22,16 +23,16 @@ public class SystemAuditLog
 
     public static Result<SystemAuditLog> Create(Guid id, string action, string details)
     {
-        if (id == Guid.Empty) return new Error("SystemAuditLog.EmptyId", "SystemAuditLog Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(action)) return new Error("SystemAuditLog.EmptyAction", "System Log action cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(details)) return new Error("SystemAuditLog.EmptyDetails", "System Log details cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return SystemAuditLogErrors.EmptyId;
+        if (string.IsNullOrWhiteSpace(action)) return SystemAuditLogErrors.EmptyAction;
+        if (string.IsNullOrWhiteSpace(details)) return SystemAuditLogErrors.EmptyDetails;
         return new SystemAuditLog(id, action, details);
     }
 
     public Result Update(string action, string details)
     {
-        if (string.IsNullOrWhiteSpace(action)) return new Error("SystemAuditLog.EmptyAction", "System Log action cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(details)) return new Error("SystemAuditLog.EmptyDetails", "System Log details cannot be empty.", ErrorType.Conflict);
+        if (string.IsNullOrWhiteSpace(action)) return SystemAuditLogErrors.EmptyAction;
+        if (string.IsNullOrWhiteSpace(details)) return SystemAuditLogErrors.EmptyDetails;
         Action = action;
         Details = details;
         return Result.Success();

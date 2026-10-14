@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -17,14 +18,14 @@ public class Department
     }
     public static Result<Department> Create(Guid id, string name, string? description = null)
     {
-        if (id == Guid.Empty) return new Error("Department.EmptyId", "Department Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(name)) return new Error("Department.EmptyName", "Department Name cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return DepartmentErrors.EmptyId;
+        if (string.IsNullOrWhiteSpace(name)) return DepartmentErrors.EmptyName;
         return new Department(id, name, description);
     }
 
     public Result Update(string name,string? description = null)
     {
-        if (string.IsNullOrWhiteSpace(name)) return new Error("Department.EmptyName", "Department Name cannot be empty.", ErrorType.Conflict);
+        if (string.IsNullOrWhiteSpace(name)) return DepartmentErrors.EmptyName;
         Name = name;
         if (!string.IsNullOrWhiteSpace(description)) Description = description;
         return Result.Success();

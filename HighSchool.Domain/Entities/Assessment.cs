@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -28,15 +29,15 @@ public class Assessment
     public static Result<Assessment> Create (Guid id, Guid courseId, Guid teacherId, string title, string? type, float? weight, DateOnly? date)
     {
         if (id == Guid.Empty)
-            return new Error("Assessment.EmptyId", "Assessment Id cannot be empty.", ErrorType.Conflict);
+            return AssessmentErrors.EmptyId;
         if (courseId == Guid.Empty)
-            return new Error("Assessment.EmptyCourseId", "Course Id cannot be empty.", ErrorType.Conflict);
+            return AssessmentErrors.EmptyCourseId;
         if (teacherId == Guid.Empty)
-            return new Error("Assessment.EmptyTeacherId", "Teacher Id cannot be empty.", ErrorType.Conflict);
+            return AssessmentErrors.EmptyTeacherId;
         if (string.IsNullOrWhiteSpace(title))
-            return new Error("Assessment.EmptyTitle", "Assessment Title cannot be empty.", ErrorType.Conflict);
+            return AssessmentErrors.EmptyTitle;
         if (date == null)
-            return new Error("Assessment.NullDate", "Assessment date cannot be empty.", ErrorType.Conflict);
+            return AssessmentErrors.NullDate;
 
         return new Assessment(id, courseId, teacherId, title, type, weight, date.Value);
     }
@@ -44,7 +45,7 @@ public class Assessment
     public Result Update(Guid? courseId, Guid? teacherId, string? title, string? type, float? weight, DateOnly? date)
     {
         if (title != null && string.IsNullOrWhiteSpace(title))
-            return new Error("Assessment.EmptyTitle", "Assessment Title cannot be empty.", ErrorType.Conflict);
+            return AssessmentErrors.EmptyTitle;
 
         if (courseId != null) CourseId = courseId.Value;
         if (teacherId != null) TeacherId = teacherId.Value;

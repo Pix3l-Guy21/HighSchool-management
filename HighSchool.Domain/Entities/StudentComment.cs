@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -25,18 +26,18 @@ public class StudentComment
 
     public static Result<StudentComment> Create(Guid id, Guid studentId, Guid teacherId, string commentText, string? type)
     {
-        if (id == Guid.Empty) return new Error("StudentComment.EmptyId", "StudentComment Id cannot be empty.", ErrorType.Conflict);
-        if (studentId == Guid.Empty) return new Error("StudentComment.EmptyStudentId", "Student Id cannot be empty.", ErrorType.Conflict);
-        if (teacherId == Guid.Empty) return new Error("StudentComment.EmptyTeacherId", "Teacher Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(commentText)) return new Error("StudentComment.EmptyCommentText", "StudentComment CommentText cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return StudentCommentErrors.EmptyId;
+        if (studentId == Guid.Empty) return StudentCommentErrors.EmptyStudentId;
+        if (teacherId == Guid.Empty) return StudentCommentErrors.EmptyTeacherId;
+        if (string.IsNullOrWhiteSpace(commentText)) return StudentCommentErrors.EmptyCommentText;
         return new StudentComment(id, studentId, teacherId, commentText, type);
     }
 
     public Result Update(Guid? studentId, Guid? teacherId, string? commentText, string? type)
     {
-        if (studentId == Guid.Empty) return new Error("StudentComment.EmptyStudentId", "Student Id cannot be empty.", ErrorType.Conflict);
-        if (teacherId == Guid.Empty) return new Error("StudentComment.EmptyTeacherId", "Teacher Id cannot be empty.", ErrorType.Conflict);
-        if (commentText != null && string.IsNullOrWhiteSpace(commentText)) return new Error("StudentComment.EmptyCommentText", "StudentComment CommentText cannot be empty.", ErrorType.Conflict);
+        if (studentId == Guid.Empty) return StudentCommentErrors.EmptyStudentId;
+        if (teacherId == Guid.Empty) return StudentCommentErrors.EmptyTeacherId;
+        if (commentText != null && string.IsNullOrWhiteSpace(commentText)) return StudentCommentErrors.EmptyCommentText;
         if (studentId != null) StudentId = studentId.Value;
         if (teacherId != null) TeacherId = teacherId.Value;
         if (commentText != null) CommentText = commentText;

@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -31,24 +32,24 @@ public class StudentGrade
 
     public static Result<StudentGrade> Create(Guid id, Guid courseId, Guid studentId, Guid assignmentId, Guid assessmentId, string title, string? feedback, float? score, DateOnly? gradedDate)
     {
-        if (id == Guid.Empty) return new Error("StudentGrade.EmptyId", "StudentGrade Id cannot be empty.", ErrorType.Conflict);
-        if (courseId == Guid.Empty) return new Error("StudentGrade.EmptyCourseId", "Course Id cannot be empty.", ErrorType.Conflict);
-        if (studentId == Guid.Empty) return new Error("StudentGrade.EmptyStudentId", "Student Id cannot be empty.", ErrorType.Conflict);
-        if (assignmentId == Guid.Empty) return new Error("StudentGrade.EmptyAssignmentId", "Assignment Id cannot be empty.", ErrorType.Conflict);
-        if (assessmentId == Guid.Empty) return new Error("StudentGrade.EmptyAssessmentId", "Assessment Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(title)) return new Error("StudentGrade.EmptyTitle", "StudentGrade Title cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return StudentGradeErrors.EmptyId;
+        if (courseId == Guid.Empty) return StudentGradeErrors.EmptyCourseId;
+        if (studentId == Guid.Empty) return StudentGradeErrors.EmptyStudentId;
+        if (assignmentId == Guid.Empty) return StudentGradeErrors.EmptyAssignmentId;
+        if (assessmentId == Guid.Empty) return StudentGradeErrors.EmptyAssessmentId;
+        if (string.IsNullOrWhiteSpace(title)) return StudentGradeErrors.EmptyTitle;
         return gradedDate == null
-            ? new Error("StudentGrade.EmptyGradedDate", "StudentGrade graded date cannot be empty.", ErrorType.Conflict)
+            ? StudentGradeErrors.EmptyGradedDate
             : new StudentGrade(id, courseId, studentId, assignmentId, assessmentId, title, feedback, score, gradedDate.Value);
     }
 
     public Result Update(Guid? courseId, Guid? studentId, Guid? assignmentId, Guid? assessmentId, string? title, string? feedback, float? score, DateOnly? gradedDate)
     {
-        if (courseId == Guid.Empty) return new Error("StudentGrade.EmptyCourseId", "Course Id cannot be empty.", ErrorType.Conflict);
-        if (studentId == Guid.Empty) return new Error("StudentGrade.EmptyStudentId", "Student Id cannot be empty.", ErrorType.Conflict);
-        if (assignmentId == Guid.Empty) return new Error("StudentGrade.EmptyAssignmentId", "Assignment Id cannot be empty.", ErrorType.Conflict);
-        if (assessmentId == Guid.Empty) return new Error("StudentGrade.EmptyAssessmentId", "Assessment Id cannot be empty.", ErrorType.Conflict);
-        if (title != null && string.IsNullOrWhiteSpace(title)) return new Error("StudentGrade.EmptyTitle", "StudentGrade Title cannot be empty.", ErrorType.Conflict);
+        if (courseId == Guid.Empty) return StudentGradeErrors.EmptyCourseId;
+        if (studentId == Guid.Empty) return StudentGradeErrors.EmptyStudentId;
+        if (assignmentId == Guid.Empty) return StudentGradeErrors.EmptyAssignmentId;
+        if (assessmentId == Guid.Empty) return StudentGradeErrors.EmptyAssessmentId;
+        if (title != null && string.IsNullOrWhiteSpace(title)) return StudentGradeErrors.EmptyTitle;
         if (courseId != null) CourseId = courseId.Value;
         if (studentId != null) StudentId = studentId.Value;
         if (assignmentId != null) AssignmentId = assignmentId.Value;

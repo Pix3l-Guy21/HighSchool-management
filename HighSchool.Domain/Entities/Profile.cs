@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -27,23 +28,23 @@ public class Profile
 
     public static Result<Profile> Create(Guid id, Guid userId, string firstName, string lastName, string phone, string address, DateOnly? dateOfBirth)
     {
-        if (id == Guid.Empty) return new Error("Profile.EmptyId", "Profile Id cannot be empty.", ErrorType.Conflict);
-        if (userId == Guid.Empty) return new Error("Profile.EmptyUserId", "Profile user Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(firstName)) return new Error("Profile.EmptyFirstName", "Profile first name cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(lastName)) return new Error("Profile.EmptyLastName", "Profile last name cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(phone)) return new Error("Profile.EmptyPhone", "Profile phone number cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(address)) return new Error("Profile.EmptyAddress", "Profile address cannot be empty.", ErrorType.Conflict);
-        if (dateOfBirth == null) return new Error("Profile.EmptyDateOfBirth", "Date of birth cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return ProfileErrors.EmptyId;
+        if (userId == Guid.Empty) return ProfileErrors.EmptyUserId;
+        if (string.IsNullOrWhiteSpace(firstName)) return ProfileErrors.EmptyFirstName;
+        if (string.IsNullOrWhiteSpace(lastName)) return ProfileErrors.EmptyLastName;
+        if (string.IsNullOrWhiteSpace(phone)) return ProfileErrors.EmptyPhone;
+        if (string.IsNullOrWhiteSpace(address)) return ProfileErrors.EmptyAddress;
+        if (dateOfBirth == null) return ProfileErrors.EmptyDateOfBirth;
         return new Profile(id, userId, firstName, lastName, phone, address, dateOfBirth.Value);
     }
 
     public Result Update (Guid userId, string firstName, string lastName, string phone, string address, DateOnly? dateOfBirth)
     {
-        if (userId == Guid.Empty) return new Error("Profile.EmptyUserId", "Profile user Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(firstName)) return new Error("Profile.EmptyFirstName", "Profile first name cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(lastName)) return new Error("Profile.EmptyLastName", "Profile last name cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(phone)) return new Error("Profile.EmptyPhone", "Profile phone number cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(address)) return new Error("Profile.EmptyAddress", "Profile address cannot be empty.", ErrorType.Conflict);
+        if (userId == Guid.Empty) return ProfileErrors.EmptyUserId;
+        if (string.IsNullOrWhiteSpace(firstName)) return ProfileErrors.EmptyFirstName;
+        if (string.IsNullOrWhiteSpace(lastName)) return ProfileErrors.EmptyLastName;
+        if (string.IsNullOrWhiteSpace(phone)) return ProfileErrors.EmptyPhone;
+        if (string.IsNullOrWhiteSpace(address)) return ProfileErrors.EmptyAddress;
         UserId = userId;
         FirstName = firstName;
         LastName = lastName;

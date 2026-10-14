@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -26,20 +27,20 @@ public class AdminCommunication
 
     public static Result<AdminCommunication> Create(Guid id, Guid senderId, Guid recipientId, string subject, string message)
     {
-        if (id == Guid.Empty) return new Error("AdminCommunication.EmptyId", "AdminCommunication Id cannot be empty.", ErrorType.Conflict);
-        if (senderId == Guid.Empty) return new Error("AdminCommunication.EmptySenderId", "Sender Id cannot be empty.", ErrorType.Conflict);
-        if (recipientId == Guid.Empty) return new Error("AdminCommunication.EmptyRecipientId", "Recipient Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(subject)) return new Error("AdminCommunication.EmptySubject", "AdminCommunication Subject cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(message)) return new Error("AdminCommunication.EmptyMessage", "AdminCommunication Message cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return AdminCommunicationErrors.EmptyId;
+        if (senderId == Guid.Empty) return AdminCommunicationErrors.EmptySenderId;
+        if (recipientId == Guid.Empty) return AdminCommunicationErrors.EmptyRecipientId;
+        if (string.IsNullOrWhiteSpace(subject)) return AdminCommunicationErrors.EmptySubject;
+        if (string.IsNullOrWhiteSpace(message)) return AdminCommunicationErrors.EmptyMessage;
         return new AdminCommunication(id, senderId, recipientId, subject, message);
     }
 
     public Result Update(Guid? senderId, Guid? recipientId, string? subject, string? message)
     {
-        if (senderId == Guid.Empty) return new Error("AdminCommunication.EmptySenderId", "Sender Id cannot be empty.", ErrorType.Conflict);
-        if (recipientId == Guid.Empty) return new Error("AdminCommunication.EmptyRecipientId", "Recipient Id cannot be empty.", ErrorType.Conflict);
-        if (subject != null && string.IsNullOrWhiteSpace(subject)) return new Error("AdminCommunication.EmptySubject", "AdminCommunication Subject cannot be empty.", ErrorType.Conflict);
-        if (message != null && string.IsNullOrWhiteSpace(message)) return new Error("AdminCommunication.EmptyMessage", "AdminCommunication Message cannot be empty.", ErrorType.Conflict);
+        if (senderId == Guid.Empty) return AdminCommunicationErrors.EmptySenderId;
+        if (recipientId == Guid.Empty) return AdminCommunicationErrors.EmptyRecipientId;
+        if (subject != null && string.IsNullOrWhiteSpace(subject)) return AdminCommunicationErrors.EmptySubject;
+        if (message != null && string.IsNullOrWhiteSpace(message)) return AdminCommunicationErrors.EmptyMessage;
         if (senderId != null) SenderId = senderId.Value;
         if (recipientId != null) RecipientId = recipientId.Value;
         if (subject != null) Subject = subject;

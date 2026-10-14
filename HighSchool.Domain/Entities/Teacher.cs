@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -21,16 +22,16 @@ public class Teacher
 
     public static Result<Teacher> Create(Guid id, Guid userId, Guid departmentId)
     {
-        if(id == Guid.Empty) return new Error("Teacher.EmptyId", "Teacher Id cannot be empty.", ErrorType.Conflict);
-        if(userId == Guid.Empty) return new Error("Teacher.EmptyUserId", "User Id cannot be empty.", ErrorType.Conflict);
-        if(departmentId == Guid.Empty) return new Error("Teacher.EmptyDepartmentId", "Department Id cannot be empty.", ErrorType.Conflict);
+        if(id == Guid.Empty) return TeacherErrors.EmptyId;
+        if(userId == Guid.Empty) return TeacherErrors.EmptyUserId;
+        if(departmentId == Guid.Empty) return TeacherErrors.EmptyDepartmentId;
         return new Teacher(id, userId, departmentId);
     }
 
     public Result Update(Guid userId, Guid departmentId)
     {
-        if(userId == Guid.Empty) return new Error("Teacher.EmptyUserId", "User Id cannot be empty.", ErrorType.Conflict);
-        if(departmentId == Guid.Empty) return new Error("Teacher.EmptyDepartmentId", "Department Id cannot be empty.", ErrorType.Conflict);
+        if(userId == Guid.Empty) return TeacherErrors.EmptyUserId;
+        if(departmentId == Guid.Empty) return TeacherErrors.EmptyDepartmentId;
         UserId = userId;
         DepartmentId = departmentId;
         return Result.Success();

@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -21,16 +22,16 @@ public class Student
 
     public static Result<Student> Create(Guid id, Guid userId, Guid classId, DateTime? enrollementDate = null)
     {
-        if(id == Guid.Empty) return new Error("Student.EmptyId", "Student Id cannot be empty.", ErrorType.Conflict);
-        if(userId == Guid.Empty) return new Error("Student.EmptyUserId", "User Id cannot be empty.", ErrorType.Conflict);
-        if(classId == Guid.Empty) return new Error("Student.EmptyClassId", "Class Id cannot be empty.", ErrorType.Conflict);
+        if(id == Guid.Empty) return StudentErrors.EmptyId;
+        if(userId == Guid.Empty) return StudentErrors.EmptyUserId;
+        if(classId == Guid.Empty) return StudentErrors.EmptyClassId;
         return new Student(id, userId, classId, enrollementDate);
     }
 
     public Result Update(Guid userId, Guid classId, DateTime? enrollementDate = null)
     {
-        if(userId == Guid.Empty) return new Error("Student.EmptyUserId", "User Id cannot be empty.", ErrorType.Conflict);
-        if(classId == Guid.Empty) return new Error("Student.EmptyClassId", "Class Id cannot be empty.", ErrorType.Conflict);
+        if(userId == Guid.Empty) return StudentErrors.EmptyUserId;
+        if(classId == Guid.Empty) return StudentErrors.EmptyClassId;
         UserId = userId;
         ClassId = classId;
         if(enrollementDate != null) EnrollementDate = enrollementDate.Value;

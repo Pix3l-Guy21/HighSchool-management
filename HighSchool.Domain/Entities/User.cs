@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -33,11 +34,11 @@ public class User {
 
     public static Result<User> Create(Guid id, string username, string passwordHash, string role, string email)
     {
-        if(id == Guid.Empty) return new Error("User.EmptyId", "User Id cannot be empty.", ErrorType.Conflict);
-        if(string.IsNullOrWhiteSpace(username)) return new Error("User.EmptyUsername", "Username cannot be empty.", ErrorType.Conflict);
-        if(string.IsNullOrWhiteSpace(passwordHash)) return new Error("User.EmptyPasswordHash", "User password cannot be empty.", ErrorType.Conflict);
-        if(string.IsNullOrWhiteSpace(role)) return new Error("User.EmptyRole", "User role cannot be empty.", ErrorType.Conflict);
-        if(string.IsNullOrWhiteSpace(email)) return new Error("User.EmptyEmail", "User email cannot be empty.", ErrorType.Conflict);
+        if(id == Guid.Empty) return UserErrors.EmptyId;
+        if(string.IsNullOrWhiteSpace(username)) return UserErrors.EmptyUsername;
+        if(string.IsNullOrWhiteSpace(passwordHash)) return UserErrors.EmptyPasswordHash;
+        if(string.IsNullOrWhiteSpace(role)) return UserErrors.EmptyRole;
+        if(string.IsNullOrWhiteSpace(email)) return UserErrors.EmptyEmail;
         return new User(id, username, passwordHash, role, email);
     }
 
@@ -47,9 +48,9 @@ public class User {
         string email
     )
     {
-        if(string.IsNullOrWhiteSpace(username)) return new Error("User.EmptyUsername", "Username cannot be empty.", ErrorType.Conflict);
-        if(string.IsNullOrWhiteSpace(role)) return new Error("User.EmptyRole", "User role cannot be empty.", ErrorType.Conflict);
-        if(string.IsNullOrWhiteSpace(email)) return new Error("User.EmptyEmail", "User email cannot be empty.", ErrorType.Conflict);
+        if(string.IsNullOrWhiteSpace(username)) return UserErrors.EmptyUsername;
+        if(string.IsNullOrWhiteSpace(role)) return UserErrors.EmptyRole;
+        if(string.IsNullOrWhiteSpace(email)) return UserErrors.EmptyEmail;
         Username = username;
         Role = role;
         Email = email;
@@ -61,7 +62,7 @@ public class User {
     {
         if (string.IsNullOrWhiteSpace(passwordHash))
         {
-            return new Error("User.EmptyPasswordHash", "Password hash cannot be empty.", ErrorType.Conflict);
+            return UserErrors.EmptyPasswordHash;
         }
         PasswordHash = passwordHash;
         UpdatedAt = DateTime.Now;

@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -21,17 +22,17 @@ public class Class
 
     public static Result<Class> Create(Guid id, string name, string academicYear, Guid homeRoomTeacherId)
     {
-        if (id == Guid.Empty) return new Error("Class.EmptyId", "Class Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(name)) return new Error("Class.EmptyName", "Class name cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(academicYear)) return new Error("Class.EmptyAcademicYear", "Class academic year cannot be empty.", ErrorType.Conflict);
-        if (homeRoomTeacherId == Guid.Empty) return new Error("Class.EmptyHomeRoomTeacherId", "Class home room teacher id cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return ClassErrors.EmptyId;
+        if (string.IsNullOrWhiteSpace(name)) return ClassErrors.EmptyName;
+        if (string.IsNullOrWhiteSpace(academicYear)) return ClassErrors.EmptyAcademicYear;
+        if (homeRoomTeacherId == Guid.Empty) return ClassErrors.EmptyHomeRoomTeacherId;
         return new Class(id, name, academicYear, homeRoomTeacherId);
     }
 
     public Result Update(string name, string academicYear, Guid? homeRoomTeacherId = null)
     {
-        if(string.IsNullOrWhiteSpace(name)) return new Error("Class.EmptyName", "Class name cannot be empty.", ErrorType.Conflict);
-        if(string.IsNullOrWhiteSpace(academicYear)) return new Error("Class.EmptyAcademicYear", "Class academic year cannot be empty.", ErrorType.Conflict);
+        if(string.IsNullOrWhiteSpace(name)) return ClassErrors.EmptyName;
+        if(string.IsNullOrWhiteSpace(academicYear)) return ClassErrors.EmptyAcademicYear;
         Name = name;
         AcademicYear = academicYear;
         if(homeRoomTeacherId != null) HomeRoomTeacherId = homeRoomTeacherId.Value;

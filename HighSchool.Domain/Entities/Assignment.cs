@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -30,15 +31,15 @@ public class Assignment
     public static Result<Assignment> Create (Guid id, Guid courseId, Guid teacherId, string title, string? description, float? totalPoint, DateOnly? dueDate)
     {
         if (id == Guid.Empty)
-            return new Error("Assignment.EmptyId", "Assignment Id cannot be empty.", ErrorType.Conflict);
+            return AssignmentErrors.EmptyId;
         if (courseId == Guid.Empty)
-            return new Error("Assignment.EmptyCourseId", "Assignment Course Id cannot be empty.", ErrorType.Conflict);
+            return AssignmentErrors.EmptyCourseId;
         if (teacherId == Guid.Empty)
-            return new Error("Assignment.EmptyTeacherId", "Assignment Teacher Id cannot be empty.", ErrorType.Conflict);
+            return AssignmentErrors.EmptyTeacherId;
         if (string.IsNullOrWhiteSpace(title))
-            return new Error("Assignment.EmptyTitle", "Assignment Title cannot be empty.", ErrorType.Conflict);
+            return AssignmentErrors.EmptyTitle;
         if (dueDate == null)
-            return new Error("Assignment.EmptyDueDate", "Assignment due date cannot be empty.", ErrorType.Conflict);
+            return AssignmentErrors.EmptyDueDate;
         
         return new Assignment(id, courseId, teacherId, title, description, totalPoint, dueDate.Value);
     }

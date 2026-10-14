@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -25,16 +26,16 @@ public class TeacherAttendance
 
     public static Result<TeacherAttendance> Create(Guid id, Guid teacherId, DateOnly date, string status, TimeOnly checkInTime, TimeOnly checkOutTime)
     {
-        if (id == Guid.Empty) return new Error("TeacherAttendance.EmptyId", "TeacherAttendance Id cannot be empty.", ErrorType.Conflict);
-        if (teacherId == Guid.Empty) return new Error("TeacherAttendance.EmptyTeacherId", "Teacher Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(status)) return new Error("TeacherAttendance.EmptyStatus", "TeacherAttendance status cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return TeacherAttendanceErrors.EmptyId;
+        if (teacherId == Guid.Empty) return TeacherAttendanceErrors.EmptyTeacherId;
+        if (string.IsNullOrWhiteSpace(status)) return TeacherAttendanceErrors.EmptyStatus;
         return new TeacherAttendance(id, teacherId, date, status, checkInTime, checkOutTime);
     }
 
     public Result Update(Guid teacherId, DateOnly? date, string status, TimeOnly? checkInTime, TimeOnly? checkOutTime)
     {
-        if(teacherId == Guid.Empty) return new Error("TeacherAttendance.EmptyTeacherId", "Teacher Id cannot be empty.", ErrorType.Conflict);
-        if(string.IsNullOrWhiteSpace(status)) return new Error("TeacherAttendance.EmptyStatus", "TeacherAttendance status cannot be empty.", ErrorType.Conflict);
+        if(teacherId == Guid.Empty) return TeacherAttendanceErrors.EmptyTeacherId;
+        if(string.IsNullOrWhiteSpace(status)) return TeacherAttendanceErrors.EmptyStatus;
         TeacherId = teacherId;
         if(date != null) Date = date.Value;
         Status = status;

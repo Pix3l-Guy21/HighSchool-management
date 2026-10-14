@@ -1,4 +1,5 @@
 using HighSchool.Domain.Common;
+using HighSchool.Domain.Errors;
 
 namespace HighSchool.Domain.Entities;
 
@@ -21,18 +22,18 @@ public class CommentSuggestion
 
     public static Result<CommentSuggestion> Create(Guid id, string category, string templateText, string tone)
     {
-        if (id == Guid.Empty) return new Error("CommentSuggestion.EmptyId", "CommentSuggestion Id cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(category)) return new Error("CommentSuggestion.EmptyCategory", "Comment category cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(templateText)) return new Error("CommentSuggestion.EmptyTemplateText", "Comment template text cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(tone)) return new Error("CommentSuggestion.EmptyTone", "Comment tone cannot be empty.", ErrorType.Conflict);
+        if (id == Guid.Empty) return CommentSuggestionErrors.EmptyId;
+        if (string.IsNullOrWhiteSpace(category)) return CommentSuggestionErrors.EmptyCategory;
+        if (string.IsNullOrWhiteSpace(templateText)) return CommentSuggestionErrors.EmptyTemplateText;
+        if (string.IsNullOrWhiteSpace(tone)) return CommentSuggestionErrors.EmptyTone;
         return new CommentSuggestion(id, category, templateText, tone);
     }
 
     public Result Update(string category, string templateText, string tone)
     {
-        if (string.IsNullOrWhiteSpace(category)) return new Error("CommentSuggestion.EmptyCategory", "Comment category cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(templateText)) return new Error("CommentSuggestion.EmptyTemplateText", "Comment template text cannot be empty.", ErrorType.Conflict);
-        if (string.IsNullOrWhiteSpace(tone)) return new Error("CommentSuggestion.EmptyTone", "Comment tone cannot be empty.", ErrorType.Conflict);
+        if (string.IsNullOrWhiteSpace(category)) return CommentSuggestionErrors.EmptyCategory;
+        if (string.IsNullOrWhiteSpace(templateText)) return CommentSuggestionErrors.EmptyTemplateText;
+        if (string.IsNullOrWhiteSpace(tone)) return CommentSuggestionErrors.EmptyTone;
         Category = category;
         TemplateText = templateText;
         Tone = tone;
