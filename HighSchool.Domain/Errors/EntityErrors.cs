@@ -143,6 +143,7 @@ public static class AdminCommunicationErrors
 public static class SystemAuditLogErrors
 {
     public static Error EmptyId => new("SystemAuditLog.EmptyId", "SystemAuditLog Id cannot be empty.", ErrorType.Conflict);
+    public static Error EmptyUserId => new("SystemAuditLog.EmptyUserId", "SystemAuditLog UserId cannot be empty.", ErrorType.Conflict);
     public static Error EmptyAction => new("SystemAuditLog.EmptyAction", "System Log action cannot be empty.", ErrorType.Conflict);
     public static Error EmptyDetails => new("SystemAuditLog.EmptyDetails", "System Log details cannot be empty.", ErrorType.Conflict);
 }

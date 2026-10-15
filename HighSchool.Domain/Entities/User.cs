@@ -39,6 +39,7 @@ public class User {
         if(string.IsNullOrWhiteSpace(passwordHash)) return UserErrors.EmptyPasswordHash;
         if(string.IsNullOrWhiteSpace(role)) return UserErrors.EmptyRole;
         if(string.IsNullOrWhiteSpace(email)) return UserErrors.EmptyEmail;
+        
         return new User(id, username, passwordHash, role, email);
     }
 

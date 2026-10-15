@@ -13,20 +13,22 @@ public class SystemAuditLog
 
     private SystemAuditLog() { }
 
-    private SystemAuditLog(Guid id, string action, string details)
+    private SystemAuditLog(Guid id, Guid userId, string action, string details)
     {
         Id = id;
+        UserId = userId;
         Action = action;
         Details = details;
         Timestamp = DateTime.Now;
     }
 
-    public static Result<SystemAuditLog> Create(Guid id, string action, string details)
+    public static Result<SystemAuditLog> Create(Guid id, Guid userId, string action, string details)
     {
         if (id == Guid.Empty) return SystemAuditLogErrors.EmptyId;
+        if (userId == Guid.Empty) return SystemAuditLogErrors.EmptyUserId;
         if (string.IsNullOrWhiteSpace(action)) return SystemAuditLogErrors.EmptyAction;
         if (string.IsNullOrWhiteSpace(details)) return SystemAuditLogErrors.EmptyDetails;
-        return new SystemAuditLog(id, action, details);
+        return new SystemAuditLog(id, userId, action, details);
     }
 
     public Result Update(string action, string details)
